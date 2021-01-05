@@ -24,21 +24,21 @@
       </button>
       <div class="calendar__container" id="calendar">
         <div class="form-inline calendar__header">
-          <button
+          <!-- <button
             class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--pre"
             id="previous"
             onclick="previous()"
           >
             Previous
-          </button>
-          <h3 class="calendar__curr" id="monthAndYear"></h3>
-          <button
+          </button> -->
+          <h3 class="calendar__curr" id="monthAndYearCurrent"></h3>
+          <!-- <button
             class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--next"
             id="next"
             onclick="next()"
           >
             Next
-          </button>
+          </button> -->
         </div>
         <table class="table table-bordered table-responsive-sm" id="calendar">
           <thead>
@@ -53,11 +53,47 @@
             </tr>
           </thead>
 
-          <tbody id="calendar-body"></tbody>
+          <tbody id="calendar-body--current"></tbody>
+        </table>
+
+        <div class="form-inline calendar__header">
+          <h3 class="calendar__curr" id="monthAndYearNext"></h3>
+        </div>
+        <table class="table table-bordered table-responsive-sm" id="calendar">
+          <thead>
+            <tr>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+
+          <tbody id="calendar-body--next"></tbody>
         </table>
 
         <br />
-        <form class="form-inline">
+        <div class="navigate-container">
+          <button
+            class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--pre"
+            id="previous"
+            onclick="previous()"
+          >
+            Previous
+          </button>
+          <h3 class="calendar__curr" id="monthAndYearNext"></h3>
+          <button
+            class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--next"
+            id="next"
+            onclick="next()"
+          >
+            Next
+          </button>
+        </div>
+        <!-- <form class="form-inline">
           <label class="lead mr-2 ml-2" for="month">Jump To: </label>
           <select
             class="form-control col-sm-4"
@@ -128,7 +164,7 @@
             <option value="2029">2029</option>
             <option value="2030">2030</option>
           </select>
-        </form>
+        </form> -->
       </div>
     </div>
     <!--<button name="jump" onclick="jump()">Go</button>-->
