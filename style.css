@@ -1,0 +1,100 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.calendar__container {
+  /* visibility: hidden; */
+  display: block;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding: 10px 15px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-top: 10px;
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  width: 90%;
+  transform: scale(0);
+  transition: 0.5s;
+}
+
+.show {
+  transform: scale(1);
+  /* visibility: visible; */
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+.calendar__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.btn-navigate {
+  padding: 5px;
+  /* width: 50px; */
+}
+
+.btn-navigate--pre {
+  margin-right: 10px;
+}
+
+.btn-navigate--next {
+  margin-left: 10px;
+}
+
+.btn_show-calendar,
+.btn-show-calendar:visited,
+.btn-show-calendar:focus {
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  outline: none;
+  border: none;
+}
+
+.btn_show-calendar:hover {
+  transform: translateY(-1.5px);
+}
+
+.calendar__container::after {
+  content: "";
+  position: absolute;
+  top: -11px;
+  left: 70px;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #555 transparent;
+}
+
+.table td,
+.table th {
+  padding: 0;
+}
+
+.table th,
+.table td {
+  width: 50px;
+}
+.cellBtn {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.cellBtn-clicked {
+  background-color: red;
+}
+
+.today-style {
+  background-color: dodgerblue;
+}
