@@ -20,7 +20,17 @@ let clickedBtn = {
   clickedDay: 0,
   clickedMonth: -1,
   clickedYear: -1,
+  price: 1.2,
 };
+
+let isCheckInSelected = false;
+let isCheckOutSelected = false;
+let checkInBtn = null;
+let checkOutBtn = null;
+
+let totalPayCal_1 = 0;
+let totalPayCal_2 = 0;
+let totalPay = 0;
 
 function getNextMonth(currentMonth) {
   if (currentMonth === 11) return 0;
@@ -94,6 +104,9 @@ function showCalendar(month, year, nameClass, monthAndYear) {
 
   // creating all cells
   let date = 1;
+  let price;
+  let totalPayTmp = 0;
+
   for (let i = 0; i < 6; i++) {
     // creates a table row
     let row = document.createElement("tr");
@@ -120,6 +133,7 @@ function showCalendar(month, year, nameClass, monthAndYear) {
 
         // Add price div to btn
         cellBtn.appendChild(cellPrice);
+        price = 1.2;
         cellPrice.innerHTML = "đ1.2M";
         cellPrice.classList.add("cellPrice");
 
@@ -135,43 +149,90 @@ function showCalendar(month, year, nameClass, monthAndYear) {
 
         // Style clicked button
         if (
-          date === clickedBtn.clickedDay &&
-          month === clickedBtn.clickedMonth &&
-          year === clickedBtn.clickedYear
+          isCheckInSelected &&
+          date === checkInBtn.clickedDay &&
+          month === checkInBtn.clickedMonth &&
+          year === checkInBtn.clickedYear
+        )
+          cellBtn.classList.add("cellBtn-clicked");
+
+        if (
+          isCheckOutSelected &&
+          date === checkOutBtn.clickedDay &&
+          month === checkOutBtn.clickedMonth &&
+          year === checkOutBtn.clickedYear
         )
           cellBtn.classList.add("cellBtn-clicked");
 
         // Disable btn if isClickedBtn = true;
-        if (clickedBtn.isclicked) {
-          if (year < clickedBtn.clickedYear) {
+        // If isCheckInSelected = true => disable all btn before checkInBtn
+        if (isCheckInSelected === true) {
+          if (year < checkInBtn.clickedYear) {
             cellBtn.disabled = true;
           } else if (
-            year === clickedBtn.clickedYear &&
-            month < clickedBtn.clickedMonth
+            year === checkInBtn.clickedYear &&
+            month < checkInBtn.clickedMonth
           ) {
             cellBtn.disabled = true;
           } else if (
-            year === clickedBtn.clickedYear &&
-            month === clickedBtn.clickedMonth &&
-            date < clickedBtn.clickedDay
+            year === checkInBtn.clickedYear &&
+            month === checkInBtn.clickedMonth &&
+            date < checkInBtn.clickedDay
           ) {
             cellBtn.disabled = true;
           }
         }
 
+        // If isCheckOutSelected = true => disable all btn after checkOutBtn
+        // if (isCheckOutSelected === true) {
+        //   if (year > checkOutBtn.clickedYear) {
+        //     cellBtn.disabled = true;
+        //   } else if (
+        //     year === checkOutBtn.clickedYear &&
+        //     month > checkOutBtn.clickedMonth
+        //   ) {
+        //     cellBtn.disabled = true;
+        //   } else if (
+        //     year === checkOutBtn.clickedYear &&
+        //     month === checkOutBtn.clickedMonth &&
+        //     date > checkOutBtn.clickedDay
+        //   ) {
+        //     cellBtn.disabled = true;
+        //   }
+        // }
+
+        // If isCheckIn and isCheckout => change background of middle button and count total pay
+        if (isCheckInSelected === true && isCheckOutSelected === true) {
+          let currentBtnTime = new Date(year, month, date).getTime();
+          let checkInTime = new Date(
+            checkInBtn.clickedYear,
+            checkInBtn.clickedMonth,
+            checkInBtn.clickedDay
+          ).getTime();
+          let checkOutTime = new Date(
+            checkOutBtn.clickedYear,
+            checkOutBtn.clickedMonth,
+            checkOutBtn.clickedDay
+          ).getTime();
+          if (currentBtnTime > checkInTime && currentBtnTime < checkOutTime) {
+            cellBtn.classList.add("dayPlan-style");
+            totalPayTmp += price;
+          }
+        }
+
         // Add onclick handle to btn
         cellBtn.onclick = function (e) {
-          // Disable onclicked style on all btn _ except today
-          const cellBtnList = document.querySelectorAll(".cellBtn");
-          cellBtnList.forEach((el) => {
-            if (el.classList.contains("cellBtn-clicked"))
-              el.classList.remove("cellBtn-clicked");
-          });
+          // Remove onclicked styles on all btn
+          // const cellBtnList = document.querySelectorAll(".cellBtn");
+          // cellBtnList.forEach((el) => {
+          //   if (el.classList.contains("cellBtn-clicked"))
+          //     el.classList.remove("cellBtn-clicked");
+          // });
 
           // Add style to btn just have been clicked
-          cellBtn.classList.add("cellBtn-clicked");
+          // cellBtn.classList.add("cellBtn-clicked");
 
-          // set values to clicked button
+          // Set values to clicked button
           let clickedBtnEle = e.target.closest(".cellBtn");
           tmpText = clickedBtnEle.textContent;
           clickedBtn.isclicked = true;
@@ -187,6 +248,20 @@ function showCalendar(month, year, nameClass, monthAndYear) {
           clickedBtn.clickedYear = parseInt(clickedBtnEle.dataset.year);
           console.log(clickedBtn);
 
+          // If NOT have checked in => choose check in (isCheckInSelected = true)
+          if (isCheckInSelected === false) {
+            isCheckInSelected = true;
+            // Deep clone object
+            checkInBtn = JSON.parse(JSON.stringify(clickedBtn));
+          }
+          // If HAVE checked in, choose check out (isCheckOutSelected = true)
+          else if (isCheckOutSelected === false) {
+            isCheckOutSelected = true;
+            checkOutBtn = JSON.parse(JSON.stringify(clickedBtn));
+            // Reselect checkout day
+          } else if (isCheckOutSelected === true) {
+            checkOutBtn = JSON.parse(JSON.stringify(clickedBtn));
+          }
           // Show calendar again based on clicked button
           showCalendar(
             currentMonth,
@@ -218,6 +293,18 @@ function showCalendar(month, year, nameClass, monthAndYear) {
     }
 
     tbl.appendChild(row); // appending each row into calendar body.
+  }
+
+  if (nameClass === "calendar-body--current") {
+    totalPayCal_1 = totalPayTmp;
+  }
+  if (nameClass === "calendar-body--next") {
+    totalPayCal_2 = totalPayTmp;
+  }
+
+  totalPayTmp = totalPayCal_1 + totalPayCal_2;
+  if (isCheckInSelected && isCheckOutSelected) {
+    totalPay = totalPayTmp + checkInBtn.price + checkOutBtn.price;
   }
 }
 
