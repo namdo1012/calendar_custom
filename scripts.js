@@ -13,6 +13,8 @@ let months = [
   "Dec",
 ];
 
+const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
 let clickedBtn = {
   isclicked: false,
   posRow: 0,
@@ -48,6 +50,14 @@ let monthAndYearNext = document.getElementById("monthAndYearNext");
 const doneBtn = document.querySelector(".btn__handle--done");
 const resetBtn = document.querySelector(".btn__handle--reset");
 
+// Booking Info box
+const checkInInfo = document.querySelector(".info__content--checkin");
+const checkOutInfo = document.querySelector(".info__content--checkout");
+const totalInfo = document.querySelector(".info__content--total");
+
+console.log(checkInInfo);
+console.log(checkOutInfo);
+console.log(totalInfo);
 showCalendar(
   currentMonth,
   currentYear,
@@ -94,6 +104,11 @@ function showCalendar(month, year, nameClass, monthAndYear) {
   // Disable done btn when start
   if (!isCheckInSelected || !isCheckOutSelected) {
     doneBtn.disabled = true;
+
+    // Clear all booking info
+    checkInInfo.innerHTML = "";
+    checkOutInfo.innerHTML = "";
+    totalInfo.innerHTML = "";
   } else {
     doneBtn.disabled = false;
   }
@@ -339,4 +354,16 @@ function handleReset() {
     monthAndYearCurrent
   );
   showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
+}
+
+function handleDone() {
+  checkInInfo.innerHTML = `${checkInBtn.clickedDay} ${
+    months[checkInBtn.clickedMonth]
+  }, ${checkInBtn.clickedYear}`;
+
+  checkOutInfo.innerHTML = `${checkOutBtn.clickedDay} ${
+    months[checkOutBtn.clickedMonth]
+  }, ${checkOutBtn.clickedYear}`;
+
+  totalInfo.innerHTML = `đ${totalPay.toFixed(2)}M`;
 }
