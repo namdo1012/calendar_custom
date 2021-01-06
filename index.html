@@ -18,64 +18,96 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="container col-sm-4 col-md-7 col-lg-4 mt-5">
+    <div class="main__container">
+      <!-- <div class="container col-sm-4 col-md-7 col-lg-4 mt-5"> -->
       <button class="btn_show-calendar" onclick="popupCalendar()">
         Show calendar
       </button>
+
       <div class="calendar__container" id="calendar">
-        <div class="form-inline calendar__header">
-          <!-- <button
-            class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--pre"
-            id="previous"
-            onclick="previous()"
-          >
-            Previous
-          </button> -->
-          <h3 class="calendar__curr" id="monthAndYearCurrent"></h3>
-          <!-- <button
-            class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--next"
-            id="next"
-            onclick="next()"
-          >
-            Next
-          </button> -->
+        <div class="booking__info-container">
+          <div class="booking__info-box booking__info-checkin">
+            <span class="info__title"> Check-in: </span>
+            <span class="info__content"> Fri, 19 Feb 2020 </span>
+          </div>
+          <div class="booking__info-box booking__info-total">
+            <span class="info__title">Total: </span>
+            <span class="info__content"> đ20M</span>
+          </div>
+          <div class="booking__info-box booking__info-checkout">
+            <span class="info__title"> Check-out: </span>
+            <span class="info__content"> Fri, 19 Feb 2020 </span>
+          </div>
         </div>
-        <table class="table table-bordered table-responsive-sm" id="calendar">
-          <thead>
-            <tr>
-              <th>Sun</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
-            </tr>
-          </thead>
-
-          <tbody id="calendar-body--current"></tbody>
-        </table>
-
-        <div class="form-inline calendar__header">
-          <h3 class="calendar__curr" id="monthAndYearNext"></h3>
+        <!-- Handle buttons -->
+        <div class="btn__handle-container">
+          <button class="btn__handle btn__handle--done" onclick="handleDone()">
+            Done
+          </button>
+          <button
+            class="btn__handle btn__handle--reset"
+            onclick="handleReset()"
+          >
+            Reset
+          </button>
         </div>
-        <table class="table table-bordered table-responsive-sm" id="calendar">
-          <thead>
-            <tr>
-              <th>Sun</th>
-              <th>Mon</th>
-              <th>Tue</th>
-              <th>Wed</th>
-              <th>Thu</th>
-              <th>Fri</th>
-              <th>Sat</th>
-            </tr>
-          </thead>
 
-          <tbody id="calendar-body--next"></tbody>
-        </table>
+        <!-- Main calendar -->
+        <div class="calendar__box">
+          <!-- Calendar 1 -->
+          <div class="calendar__box--content">
+            <div class="form-inline calendar__header">
+              <h3 class="calendar__curr" id="monthAndYearCurrent"></h3>
+            </div>
+            <table
+              class="table table-bordered table-responsive-sm"
+              id="calendar"
+            >
+              <thead>
+                <tr>
+                  <th>Sun</th>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                </tr>
+              </thead>
 
-        <br />
+              <tbody id="calendar-body--current"></tbody>
+            </table>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Calendar 2 -->
+          <div class="calendar__box--content">
+            <div class="form-inline calendar__header">
+              <h3 class="calendar__curr" id="monthAndYearNext"></h3>
+            </div>
+            <table
+              class="table table-bordered table-responsive-sm"
+              id="calendar"
+            >
+              <thead>
+                <tr>
+                  <th>Sun</th>
+                  <th>Mon</th>
+                  <th>Tue</th>
+                  <th>Wed</th>
+                  <th>Thu</th>
+                  <th>Fri</th>
+                  <th>Sat</th>
+                </tr>
+              </thead>
+
+              <tbody id="calendar-body--next"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Navigate button -->
         <div class="navigate-container">
           <button
             class="btn btn-outline-primary col-sm-3 btn-navigate btn-navigate--pre"
@@ -93,7 +125,10 @@
             Next
           </button>
         </div>
-        <!-- <form class="form-inline">
+      </div>
+    </div>
+
+    <!-- <form class="form-inline">
           <label class="lead mr-2 ml-2" for="month">Jump To: </label>
           <select
             class="form-control col-sm-4"
@@ -165,8 +200,7 @@
             <option value="2030">2030</option>
           </select>
         </form> -->
-      </div>
-    </div>
+    <!-- </div> -->
     <!--<button name="jump" onclick="jump()">Go</button>-->
     <script src="scripts.js"></script>
 

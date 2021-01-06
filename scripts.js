@@ -45,6 +45,8 @@ let currentYear = today.getFullYear();
 // let selectMonth = document.getElementById("month");
 let monthAndYearCurrent = document.getElementById("monthAndYearCurrent");
 let monthAndYearNext = document.getElementById("monthAndYearNext");
+const doneBtn = document.querySelector(".btn__handle--done");
+const resetBtn = document.querySelector(".btn__handle--reset");
 
 showCalendar(
   currentMonth,
@@ -89,6 +91,13 @@ function jump() {
 }
 
 function showCalendar(month, year, nameClass, monthAndYear) {
+  // Disable done btn when start
+  if (!isCheckInSelected || !isCheckOutSelected) {
+    doneBtn.disabled = true;
+  } else {
+    doneBtn.disabled = false;
+  }
+
   let firstDay = new Date(year, month).getDay();
   let daysInMonth = 32 - new Date(year, month, 32).getDate();
 
@@ -311,4 +320,23 @@ function showCalendar(month, year, nameClass, monthAndYear) {
 function popupCalendar() {
   const calendarContainer = document.querySelector(".calendar__container");
   calendarContainer.classList.toggle("show");
+}
+
+function handleReset() {
+  isCheckInSelected = false;
+  isCheckOutSelected = false;
+  checkInBtn = null;
+  checkOutBtn = null;
+
+  totalPayCal_1 = 0;
+  totalPayCal_2 = 0;
+  totalPay = 0;
+
+  showCalendar(
+    currentMonth,
+    currentYear,
+    "calendar-body--current",
+    monthAndYearCurrent
+  );
+  showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
 }
