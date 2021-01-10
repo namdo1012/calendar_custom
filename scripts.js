@@ -42,6 +42,8 @@ function getNextMonth(currentMonth) {
 // Booking Form
 const usernameInput = document.getElementById("usernameInput");
 const emailInput = document.getElementById("emailInput");
+const btnSaveChange = document.getElementById("btn_save_change");
+const bookingModal = document.getElementById("exampleModal");
 
 let today = new Date();
 let currentMonth = today.getMonth();
@@ -383,23 +385,16 @@ function handleBooking(e) {
   console.log("Booking..");
   var url =
     "https://script.google.com/macros/s/AKfycbzi3YEazktudOygQybCByIWTtZTNAadIHA5sq-hP3OzOrsz4vE/exec";
-  // fetch(url, { method: "GET", cache: "no-cache", redirect: "follow" })
-  //   .then((data) => data.json())
-  //   .then((data) => console.log("Data===>", data));
-
-  // var today = new Date();
-  // var dd = String(today.getDate()).padStart(2, "0");
-  // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
-  // var yyyy = today.getFullYear();
-
-  // today = mm + "/" + dd + "/" + yyyy;
 
   const today = new Date();
   const todayDay = String(today.getDate()).padStart(2, "0");
   const todayMonth =
     months[parseInt(String(today.getMonth() + 1).padStart(2, "0")) - 1];
-  // console.log();
   const todayYear = today.getFullYear();
+
+  // Change display of save change button
+  btnSaveChange.innerHTML = "Saving...";
+  btnSaveChange.disabled = true;
 
   const info = {
     username: usernameInput.value,
@@ -423,14 +418,44 @@ function handleBooking(e) {
   })
     .then((res) => res.json())
     .then((res) => {
-      console.log(res);
+      // Change display of save change button
+      btnSaveChange.innerHTML = "Saved";
+      btnSaveChange.disabled = true;
+      // hideModal();
+      setTimeout(function () {
+        hideModal();
+      }, 1000);
     })
     .catch((err) => {
       console.log(err);
       console.log("Something Went Wrong");
+      // Change display of save change button
+      btnSaveChange.innerHTML = "Saved";
+      btnSaveChange.disabled = true;
+      setTimeout(function () {
+        hideModal();
+      }, 1000);
     });
 }
 
-document
-  .getElementById("booking__form")
-  .addEventListener("submit", handleBooking);
+function hideModal() {
+  // get modals
+  const modals = document.getElementsByClassName("modal");
+
+  // on every modal change state like in hidden modal
+  for (let i = 0; i < modals.length; i++) {
+    modals[i].classList.remove("show");
+    modals[i].setAttribute("aria-hidden", "true");
+    modals[i].setAttribute("style", "display: none");
+  }
+
+  // get modal backdrops
+  const modalsBackdrops = document.getElementsByClassName("modal-backdrop");
+
+  // remove every modal backdrop
+  for (let i = 0; i < modalsBackdrops.length; i++) {
+    document.body.removeChild(modalsBackdrops[i]);
+  }
+}
+
+btnSaveChange.addEventListener("click", handleBooking);

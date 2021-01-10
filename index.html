@@ -18,41 +18,103 @@
     <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <form id="booking__form">
-      <div class="form-group">
-        <label for="usernameInput"> Username</label>
-        <input
-          type="text"
-          class="form-control"
-          id="usernameInput"
-          placeholder="Enter your name"
-        />
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">
+              Please give us a few infos!
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form id="booking__form">
+              <div class="booking__username">
+                <label for="usernameInput"> Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="usernameInput"
+                  placeholder="Enter your name"
+                />
+              </div>
+              <div class="booking__email">
+                <label for="emailInput">Email address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="emailInput"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                />
+              </div>
+              <!-- <small id="emailHelp" class="form-text text-muted"
+                >We'll never share your email with anyone else.</small
+              > -->
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-dismiss="modal"
+              id="btn_save_change"
+            >
+              Save changes
+            </button>
+            <!-- <button
+              type="button"
+              class="btn btn-primary"
+              id="btn_save_change"
+              data-
+            >
+              Save changes
+            </button> -->
+          </div>
+        </div>
       </div>
-      <div class="form-group">
-        <label for="emailInput">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="emailInput"
-          aria-describedby="emailHelp"
-          placeholder="Enter email"
-        />
-        <small id="emailHelp" class="form-text text-muted"
-          >We'll never share your email with anyone else.</small
-        >
-      </div>
-      <button type="submit" class="btn btn-primary" id="btn__booking">
-        Booking
-      </button>
-    </form>
-
+    </div>
     <div class="main__container">
-      <!-- <div class="container col-sm-4 col-md-7 col-lg-4 mt-5"> -->
       <button class="btn_show-calendar" onclick="popupCalendar()">
         Show calendar
       </button>
 
+      <!-- Button trigger modal -->
+      <button
+        id="btn__booking"
+        type="button"
+        class="btn btn-primary"
+        data-toggle="modal"
+        data-target="#exampleModal"
+      >
+        Booking
+      </button>
+
       <div class="calendar__container" id="calendar">
+        <!-- <div class="booking__container"> -->
+
+        <!-- <div style="display: flex; justify-content: center">
+          <button type="submit" class="btn btn-primary" id="btn__booking">
+            Booking
+          </button>
+        </div> -->
+        <!-- </div> -->
+
         <div class="booking__info-container">
           <div class="booking__info-box booking__info-checkin">
             <span class="info__title"> Check-in: </span>

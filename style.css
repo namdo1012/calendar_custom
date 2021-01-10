@@ -208,3 +208,8 @@
 .info__content {
   margin-left: 8px;
 }
+
+/* BOOKING CONTAINER */
+.booking__username {
+  margin-bottom: 15px;
+}
