@@ -1,0 +1,19 @@
+{
+  "name": "calendarhtml-javascript",
+  "version": "1.0.0",
+  "description": "The program uses Date() function to build a simple calendar with Pure JavaScript and HTML. \r Here's the final implementation of it - http://iamnitinpatel.com/projects/calendar",
+  "main": "scripts.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/namdo1012/calendar_custom.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/namdo1012/calendar_custom/issues"
+  },
+  "homepage": "https://github.com/namdo1012/calendar_custom#readme"
+}

@@ -39,6 +39,13 @@ function getNextMonth(currentMonth) {
   return currentMonth + 1;
 }
 
+// Booking Form
+const usernameInput = document.getElementById("usernameInput");
+const emailInput = document.getElementById("emailInput");
+const btnSaveChange = document.getElementById("btn_save_change");
+const bookingBtn = document.getElementById("btn__booking");
+const bookingModal = document.getElementById("exampleModal");
+
 let today = new Date();
 let currentMonth = today.getMonth();
 let nextMonth = getNextMonth(currentMonth);
@@ -55,9 +62,7 @@ const checkInInfo = document.querySelector(".info__content--checkin");
 const checkOutInfo = document.querySelector(".info__content--checkout");
 const totalInfo = document.querySelector(".info__content--total");
 
-console.log(checkInInfo);
-console.log(checkOutInfo);
-console.log(totalInfo);
+// Show calendar
 showCalendar(
   currentMonth,
   currentYear,
@@ -65,6 +70,18 @@ showCalendar(
   monthAndYearCurrent
 );
 showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
+
+// Disable bookingBtn
+bookingBtn.style.display = "none";
+
+function getISOStringDate(date) {
+  // var today = new Date();
+  var dd = String(date.getDate()).padStart(2, "0");
+  var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = date.getFullYear();
+
+  return (date = mm + "/" + dd + "/" + yyyy);
+}
 
 function next() {
   currentYear = currentMonth === 11 ? currentYear + 1 : currentYear;
@@ -354,6 +371,8 @@ function handleReset() {
     monthAndYearCurrent
   );
   showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
+
+  bookingBtn.style.display = "none";
 }
 
 function handleDone() {
@@ -366,4 +385,88 @@ function handleDone() {
   }, ${checkOutBtn.clickedYear}`;
 
   totalInfo.innerHTML = `đ${totalPay.toFixed(2)}M`;
+
+  // bookingBtn.disabled = false;
+  bookingBtn.style.display = "initial";
 }
+
+function handleBooking(e) {
+  e.preventDefault();
+  console.log("Booking..");
+  var url =
+    "https://script.google.com/macros/s/AKfycbzi3YEazktudOygQybCByIWTtZTNAadIHA5sq-hP3OzOrsz4vE/exec";
+
+  const today = new Date();
+  const todayDay = String(today.getDate()).padStart(2, "0");
+  const todayMonth =
+    months[parseInt(String(today.getMonth() + 1).padStart(2, "0")) - 1];
+  const todayYear = today.getFullYear();
+
+  // Change display of save change button
+  btnSaveChange.innerHTML = "Saving...";
+  btnSaveChange.disabled = true;
+
+  const info = {
+    username: usernameInput.value,
+    email: emailInput.value,
+    checkInDate: `${checkInBtn.clickedDay} ${
+      months[checkInBtn.clickedMonth]
+    }, ${checkInBtn.clickedYear}`,
+    checkOutDate: `${checkOutBtn.clickedDay} ${
+      months[checkOutBtn.clickedMonth]
+    }, ${checkOutBtn.clickedYear}`,
+    bookingDate: `${todayDay} ${todayMonth}, ${todayYear}`,
+    totalPay: `đ${totalPay.toFixed(2)}M`,
+  };
+
+  fetch(url, {
+    method: "POST",
+    cache: "no-cache",
+    redirect: "follow",
+    cors: "no-cors",
+    body: JSON.stringify(info),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      // Change display of save change button
+      btnSaveChange.innerHTML = "Saved";
+      btnSaveChange.disabled = true;
+      setTimeout(function () {
+        hideModal();
+        handleReset();
+      }, 1000);
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Something Went Wrong");
+      // Change display of save change button
+      btnSaveChange.innerHTML = "Saved";
+      btnSaveChange.disabled = true;
+      setTimeout(function () {
+        hideModal();
+        handleReset();
+      }, 1000);
+    });
+}
+
+function hideModal() {
+  // get modals
+  const modals = document.getElementsByClassName("modal");
+
+  // on every modal change state like in hidden modal
+  for (let i = 0; i < modals.length; i++) {
+    modals[i].classList.remove("show");
+    modals[i].setAttribute("aria-hidden", "true");
+    modals[i].setAttribute("style", "display: none");
+  }
+
+  // get modal backdrops
+  const modalsBackdrops = document.getElementsByClassName("modal-backdrop");
+
+  // remove every modal backdrop
+  for (let i = 0; i < modalsBackdrops.length; i++) {
+    document.body.removeChild(modalsBackdrops[i]);
+  }
+}
+
+btnSaveChange.addEventListener("click", handleBooking);
