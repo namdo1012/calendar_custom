@@ -39,6 +39,10 @@ function getNextMonth(currentMonth) {
   return currentMonth + 1;
 }
 
+// Booking Form
+const usernameInput = document.getElementById("usernameInput");
+const emailInput = document.getElementById("emailInput");
+
 let today = new Date();
 let currentMonth = today.getMonth();
 let nextMonth = getNextMonth(currentMonth);
@@ -55,9 +59,6 @@ const checkInInfo = document.querySelector(".info__content--checkin");
 const checkOutInfo = document.querySelector(".info__content--checkout");
 const totalInfo = document.querySelector(".info__content--total");
 
-console.log(checkInInfo);
-console.log(checkOutInfo);
-console.log(totalInfo);
 showCalendar(
   currentMonth,
   currentYear,
@@ -65,6 +66,15 @@ showCalendar(
   monthAndYearCurrent
 );
 showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
+
+function getISOStringDate(date) {
+  // var today = new Date();
+  var dd = String(date.getDate()).padStart(2, "0");
+  var mm = String(date.getMonth() + 1).padStart(2, "0"); //January is 0!
+  var yyyy = date.getFullYear();
+
+  return (date = mm + "/" + dd + "/" + yyyy);
+}
 
 function next() {
   currentYear = currentMonth === 11 ? currentYear + 1 : currentYear;
@@ -367,3 +377,60 @@ function handleDone() {
 
   totalInfo.innerHTML = `đ${totalPay.toFixed(2)}M`;
 }
+
+function handleBooking(e) {
+  e.preventDefault();
+  console.log("Booking..");
+  var url =
+    "https://script.google.com/macros/s/AKfycbzi3YEazktudOygQybCByIWTtZTNAadIHA5sq-hP3OzOrsz4vE/exec";
+  // fetch(url, { method: "GET", cache: "no-cache", redirect: "follow" })
+  //   .then((data) => data.json())
+  //   .then((data) => console.log("Data===>", data));
+
+  // var today = new Date();
+  // var dd = String(today.getDate()).padStart(2, "0");
+  // var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  // var yyyy = today.getFullYear();
+
+  // today = mm + "/" + dd + "/" + yyyy;
+
+  const today = new Date();
+  const todayDay = String(today.getDate()).padStart(2, "0");
+  const todayMonth =
+    months[parseInt(String(today.getMonth() + 1).padStart(2, "0")) - 1];
+  // console.log();
+  const todayYear = today.getFullYear();
+
+  const info = {
+    username: usernameInput.value,
+    email: emailInput.value,
+    checkInDate: `${checkInBtn.clickedDay} ${
+      months[checkInBtn.clickedMonth]
+    }, ${checkInBtn.clickedYear}`,
+    checkOutDate: `${checkOutBtn.clickedDay} ${
+      months[checkOutBtn.clickedMonth]
+    }, ${checkOutBtn.clickedYear}`,
+    bookingDate: `${todayDay} ${todayMonth}, ${todayYear}`,
+    totalPay: `đ${totalPay.toFixed(2)}M`,
+  };
+
+  fetch(url, {
+    method: "POST",
+    cache: "no-cache",
+    redirect: "follow",
+    cors: "no-cors",
+    body: JSON.stringify(info),
+  })
+    .then((res) => res.json())
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Something Went Wrong");
+    });
+}
+
+document
+  .getElementById("booking__form")
+  .addEventListener("submit", handleBooking);
