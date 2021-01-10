@@ -43,6 +43,7 @@ function getNextMonth(currentMonth) {
 const usernameInput = document.getElementById("usernameInput");
 const emailInput = document.getElementById("emailInput");
 const btnSaveChange = document.getElementById("btn_save_change");
+const bookingBtn = document.getElementById("btn__booking");
 const bookingModal = document.getElementById("exampleModal");
 
 let today = new Date();
@@ -61,6 +62,7 @@ const checkInInfo = document.querySelector(".info__content--checkin");
 const checkOutInfo = document.querySelector(".info__content--checkout");
 const totalInfo = document.querySelector(".info__content--total");
 
+// Show calendar
 showCalendar(
   currentMonth,
   currentYear,
@@ -68,6 +70,9 @@ showCalendar(
   monthAndYearCurrent
 );
 showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
+
+// Disable bookingBtn
+bookingBtn.style.display = "none";
 
 function getISOStringDate(date) {
   // var today = new Date();
@@ -378,6 +383,9 @@ function handleDone() {
   }, ${checkOutBtn.clickedYear}`;
 
   totalInfo.innerHTML = `đ${totalPay.toFixed(2)}M`;
+
+  // bookingBtn.disabled = false;
+  bookingBtn.style.display = "initial";
 }
 
 function handleBooking(e) {
@@ -421,7 +429,6 @@ function handleBooking(e) {
       // Change display of save change button
       btnSaveChange.innerHTML = "Saved";
       btnSaveChange.disabled = true;
-      // hideModal();
       setTimeout(function () {
         hideModal();
       }, 1000);

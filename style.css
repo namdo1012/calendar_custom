@@ -106,7 +106,20 @@
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
     rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
   outline: none;
-  /* border: none; */
+  border: none;
+}
+
+.btn__booking {
+  padding: 5px 30px;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: 0.3s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+    rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  outline: none;
+  border: none;
+  margin-left: 10px;
 }
 
 .btn_show-calendar:hover {
