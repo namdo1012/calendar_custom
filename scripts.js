@@ -371,6 +371,8 @@ function handleReset() {
     monthAndYearCurrent
   );
   showCalendar(nextMonth, currentYear, "calendar-body--next", monthAndYearNext);
+
+  bookingBtn.style.display = "none";
 }
 
 function handleDone() {
@@ -431,6 +433,7 @@ function handleBooking(e) {
       btnSaveChange.disabled = true;
       setTimeout(function () {
         hideModal();
+        handleReset();
       }, 1000);
     })
     .catch((err) => {
@@ -441,6 +444,7 @@ function handleBooking(e) {
       btnSaveChange.disabled = true;
       setTimeout(function () {
         hideModal();
+        handleReset();
       }, 1000);
     });
 }
